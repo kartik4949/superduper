@@ -72,6 +72,7 @@ class _DataBackendLoader(_Loader):
         r'^duckdb://': ('ibis', 'base'),
         r'^mssql://': ('ibis', 'base'),
         r'^mysql://': ('ibis', 'base'),
+        r'^snowflake://': ('ibis', 'base'),
         r'.*\*.csv$': ('ibis', 'pandas'),
     }
 
