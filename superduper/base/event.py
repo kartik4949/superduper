@@ -45,13 +45,11 @@ class Event:
     dest: ComponentPlaceholder
     ids: t.Sequence[str] | None = None
     uuid: str = dc.field(default_factory=lambda: str(uuid.uuid4()).replace('-', ''))
+    _path: t.ClassVar[str] = 'superduper.base.event.Event'
 
     def dict(self):
         """Convert to dict."""
-        return {
-            **dc.asdict(self),
-            '_path': f'superduper.base.event.{self.__class__.__name__}',
-        }
+        return  dc.asdict(self)
 
     def __add__(self, other: 'Event'):
         """Add two events."""

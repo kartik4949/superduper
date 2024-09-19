@@ -32,7 +32,6 @@ from superduper.misc.colors import Colors
 from superduper.misc.download import download_from_one
 from superduper.misc.retry import db_retry
 from superduper.misc.special_dicts import recursive_update
-from superduper.vector_search.base import BaseVectorSearcher
 
 DBResult = t.Any
 TaskGraph = t.Any
@@ -491,6 +490,7 @@ class Datalayer:
         version: t.Optional[int] = None,
         allow_hidden: bool = False,
         uuid: t.Optional[str] = None,
+        on_load: bool = True
     ) -> Component:
         """
         Load a component using uniquely identifying information.
@@ -540,10 +540,10 @@ class Datalayer:
                 return self.cluster.cache[info['type_id'], info['identifier']]
             except KeyError:
                 logging.info(f'Component {info["uuid"]} not found in cache, loading from db')
-
         m = Document.decode(info, db=self)
         m.db = self
-        m.on_load(self)
+        if on_load:
+            m.on_load(self)
 
         assert type_id is not None
         if m.cache:

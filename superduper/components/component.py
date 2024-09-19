@@ -454,8 +454,10 @@ class Component(Leaf, metaclass=ComponentMeta):
 
     def declare_component(self, cluster):
         if self.triggers:
+            logging.debug(f'Declaring {self.type_id}: {self.identifier} to queue')
             cluster.queue.put(self)
         if self.cache:
+            logging.debug(f'Declaring {self.type_id}: {self.identifier} to cache')
             cluster.cache.put(self)
 
     def on_load(self, db: Datalayer) -> None:
@@ -464,7 +466,7 @@ class Component(Leaf, metaclass=ComponentMeta):
         :param db: the db that loaded the component.
         """
         assert db
-        self.declare_component(db.cluster)
+        #self.declare_component(db.cluster)
 
     @staticmethod
     def read(path: str, db: t.Optional[Datalayer] = None):
