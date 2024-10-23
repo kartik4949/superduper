@@ -69,6 +69,12 @@ class Cluster(ABC):
         :param value: ``Datalayer`` instance.
         """
         self._db = value
+        self.cache.db = value
+        self.queue.db = value
+        self.vector_search.db = value
+        self.crontab.db = value
+        self.compute.db = value
+        self.cdc.db = value
 
     def initialize(self, with_compute: bool = False):
         """Initialize the cluster.
@@ -80,9 +86,9 @@ class Cluster(ABC):
         if with_compute:
             self.compute.initialize()
 
-        self.cache.db = self.db
-        self.queue.db = self.db
-        self.vector_search.db = self.db
-        self.crontab.db = self.db
-        self.compute.db = self.db
-        self.cdc.db = self.db
+        self.cache.initialize()
+        self.queue.initialize()
+        self.vector_search.initialize()
+        self.crontab.initialize()
+        self.compute.initialize()
+        self.cdc.initialize()
